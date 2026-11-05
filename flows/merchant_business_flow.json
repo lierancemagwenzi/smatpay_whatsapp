@@ -1,0 +1,83 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "BUSINESS": ["CONTACT"],
+    "CONTACT": []
+  },
+  "screens": [
+    {
+      "id": "BUSINESS",
+      "title": "Your business",
+      "data": {
+        "account_types": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "Individual", "title": "Individual (sole trader)"}]},
+        "sectors": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "1", "title": "Agriculture"}]},
+        "account_type": {"type": "string", "__example__": ""},
+        "trading_name": {"type": "string", "__example__": ""},
+        "business_description": {"type": "string", "__example__": ""},
+        "sector": {"type": "string", "__example__": ""},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "Dropdown", "name": "account_type", "label": "Registered as", "required": true, "data-source": "${data.account_types}", "init-value": "${data.account_type}"},
+          {"type": "TextInput", "name": "trading_name", "label": "Trading name", "input-type": "text", "required": true, "init-value": "${data.trading_name}", "helper-text": "The name customers see"},
+          {"type": "TextInput", "name": "business_description", "label": "What the business does", "input-type": "text", "required": true, "init-value": "${data.business_description}"},
+          {"type": "Dropdown", "name": "sector", "label": "Business sector", "required": true, "data-source": "${data.sectors}", "init-value": "${data.sector}"},
+          {
+            "type": "Footer",
+            "label": "Continue",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"account_type": "${form.account_type}", "trading_name": "${form.trading_name}", "business_description": "${form.business_description}", "sector": "${form.sector}"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CONTACT",
+      "title": "Business details",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "sub_sectors": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "1", "title": "Crop Production"}]},
+        "provinces": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "Harare", "title": "Harare"}]},
+        "is_company": {"type": "boolean", "__example__": false},
+        "sub_sector": {"type": "string", "__example__": ""},
+        "registered_name": {"type": "string", "__example__": ""},
+        "registration_number": {"type": "string", "__example__": ""},
+        "trading_address": {"type": "string", "__example__": ""},
+        "province": {"type": "string", "__example__": ""},
+        "phone": {"type": "string", "__example__": "0771234567"},
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "Dropdown", "name": "sub_sector", "label": "Sub-sector", "required": true, "data-source": "${data.sub_sectors}", "init-value": "${data.sub_sector}"},
+          {"type": "TextInput", "name": "registered_name", "label": "Registered company name", "input-type": "text", "required": false, "init-value": "${data.registered_name}", "visible": "${data.is_company}"},
+          {"type": "TextInput", "name": "registration_number", "label": "Company registration number", "input-type": "text", "required": false, "init-value": "${data.registration_number}", "visible": "${data.is_company}"},
+          {"type": "TextInput", "name": "trading_address", "label": "Business address", "input-type": "text", "required": true, "init-value": "${data.trading_address}"},
+          {"type": "Dropdown", "name": "province", "label": "Province", "required": true, "data-source": "${data.provinces}", "init-value": "${data.province}"},
+          {"type": "TextInput", "name": "phone", "label": "Business phone", "input-type": "phone", "required": true, "init-value": "${data.phone}"},
+          {"type": "TextInput", "name": "email", "label": "Business email", "input-type": "email", "required": true, "init-value": "${data.email}"},
+          {
+            "type": "Footer",
+            "label": "Create business",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"sub_sector": "${form.sub_sector}", "registered_name": "${form.registered_name}", "registration_number": "${form.registration_number}", "trading_address": "${form.trading_address}", "province": "${form.province}", "phone": "${form.phone}", "email": "${form.email}"}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

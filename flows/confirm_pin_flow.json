@@ -1,0 +1,38 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "CONFIRM": []
+  },
+  "screens": [
+    {
+      "id": "CONFIRM",
+      "title": "Confirm payment",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "summary": {"type": "string", "__example__": "USD 1.00 Econet airtime for 0771234567. Total USD 1.33 with EcoCash."},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "${data.summary}"},
+          {"type": "TextInput", "name": "pin", "label": "PIN", "input-type": "passcode", "required": true, "min-chars": 4, "max-chars": 4},
+          {
+            "type": "Footer",
+            "label": "Pay",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {
+                "pin": "${form.pin}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

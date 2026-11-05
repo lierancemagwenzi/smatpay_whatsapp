@@ -1,0 +1,70 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "DETAILS": ["PASSWORD"],
+    "PASSWORD": []
+  },
+  "screens": [
+    {
+      "id": "DETAILS",
+      "title": "Register your business",
+      "data": {
+        "titles": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "Mr", "title": "Mr"}]},
+        "title": {"type": "string", "__example__": ""},
+        "first_name": {"type": "string", "__example__": "Tariro"},
+        "last_name": {"type": "string", "__example__": "Moyo"},
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "First, the person who manages the business. You’ll add the business details after."},
+          {"type": "Dropdown", "name": "title", "label": "Title", "required": true, "data-source": "${data.titles}", "init-value": "${data.title}"},
+          {"type": "TextInput", "name": "first_name", "label": "First name", "input-type": "text", "required": true, "init-value": "${data.first_name}"},
+          {"type": "TextInput", "name": "last_name", "label": "Last name", "input-type": "text", "required": true, "init-value": "${data.last_name}"},
+          {"type": "TextInput", "name": "email", "label": "Email", "input-type": "email", "required": true, "init-value": "${data.email}", "helper-text": "We’ll send your activation link here"},
+          {
+            "type": "Footer",
+            "label": "Continue",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"title": "${form.title}", "first_name": "${form.first_name}", "last_name": "${form.last_name}", "email": "${form.email}"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "PASSWORD",
+      "title": "Choose a password",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "You’ll sign in to the Smatpay merchant portal with ${data.email} and this password."},
+          {"type": "TextInput", "name": "password", "label": "Password", "input-type": "password", "required": true, "min-chars": 8, "helper-text": "At least 8 characters"},
+          {"type": "TextInput", "name": "confirm_password", "label": "Confirm password", "input-type": "password", "required": true},
+          {
+            "type": "Footer",
+            "label": "Create account",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"password": "${form.password}", "confirm_password": "${form.confirm_password}"}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "PROFILE": []
+  },
+  "screens": [
+    {
+      "id": "PROFILE",
+      "title": "New payment profile",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "fee_options": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "merchant", "title": "My business pays the fees"}]},
+        "fiscal_options": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "no", "title": "No"}]},
+        "banks": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}}}, "__example__": [{"id": "none", "title": "Not now"}]},
+        "name": {"type": "string", "__example__": ""},
+        "description": {"type": "string", "__example__": ""},
+        "fees": {"type": "string", "__example__": "merchant"},
+        "fiscalise": {"type": "string", "__example__": "no"},
+        "bank": {"type": "string", "__example__": "none"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "A payment profile is how your business takes payments: who pays the fees, whether payments are fiscalised, and which account the money goes to."},
+          {"type": "TextInput", "name": "name", "label": "Profile name", "input-type": "text", "required": true, "init-value": "${data.name}", "helper-text": "e.g. Shop counter, Online orders"},
+          {"type": "TextInput", "name": "description", "label": "What it’s for", "input-type": "text", "required": true, "init-value": "${data.description}"},
+          {"type": "Dropdown", "name": "fees", "label": "Who pays the Smatpay fees?", "required": true, "data-source": "${data.fee_options}", "init-value": "${data.fees}"},
+          {"type": "Dropdown", "name": "fiscalise", "label": "Fiscalise payments (ZIMRA)?", "required": true, "data-source": "${data.fiscal_options}", "init-value": "${data.fiscalise}"},
+          {"type": "Dropdown", "name": "bank", "label": "Pay out to", "required": true, "data-source": "${data.banks}", "init-value": "${data.bank}"},
+          {
+            "type": "Footer",
+            "label": "Create profile",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"name": "${form.name}", "description": "${form.description}", "fees": "${form.fees}", "fiscalise": "${form.fiscalise}", "bank": "${form.bank}"}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

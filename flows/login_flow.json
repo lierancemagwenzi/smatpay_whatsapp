@@ -1,0 +1,40 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "LOGIN": []
+  },
+  "screens": [
+    {
+      "id": "LOGIN",
+      "title": "Sign in to Smatpay",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextInput", "name": "email", "label": "Email", "input-type": "email", "required": true, "init-value": "${data.email}"},
+          {"type": "TextInput", "name": "password", "label": "Password", "input-type": "password", "required": true},
+          {"type": "TextCaption", "text": "Forgot your password? Reset it in the Smatpay app."},
+          {
+            "type": "Footer",
+            "label": "Sign in",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {
+                "email": "${form.email}",
+                "password": "${form.password}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

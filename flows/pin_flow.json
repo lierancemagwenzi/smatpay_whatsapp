@@ -1,0 +1,39 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "SET_PIN": []
+  },
+  "screens": [
+    {
+      "id": "SET_PIN",
+      "title": "Payment PIN",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "Choose 4 digits you’ll enter to approve payments. Avoid repeated or consecutive digits."},
+          {"type": "TextInput", "name": "pin", "label": "PIN", "input-type": "passcode", "required": true, "min-chars": 4, "max-chars": 4},
+          {"type": "TextInput", "name": "confirm_pin", "label": "Confirm PIN", "input-type": "passcode", "required": true, "min-chars": 4, "max-chars": 4},
+          {
+            "type": "Footer",
+            "label": "Save PIN",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {
+                "pin": "${form.pin}",
+                "confirm_pin": "${form.confirm_pin}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

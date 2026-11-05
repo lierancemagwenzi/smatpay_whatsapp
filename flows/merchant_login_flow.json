@@ -1,0 +1,63 @@
+{
+  "version": "7.3",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "LOGIN": ["CODE"],
+    "CODE": []
+  },
+  "screens": [
+    {
+      "id": "LOGIN",
+      "title": "Merchant sign in",
+      "data": {
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "Sign in with your Smatpay merchant portal email and password."},
+          {"type": "TextInput", "name": "email", "label": "Email", "input-type": "email", "required": true, "init-value": "${data.email}"},
+          {"type": "TextInput", "name": "password", "label": "Password", "input-type": "password", "required": true},
+          {
+            "type": "Footer",
+            "label": "Sign in",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"email": "${form.email}", "password": "${form.password}"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "CODE",
+      "title": "Enter your code",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "email": {"type": "string", "__example__": "tariro@example.com"},
+        "has_error": {"type": "boolean", "__example__": false},
+        "error_message": {"type": "string", "__example__": ""}
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {"type": "TextBody", "text": "${data.error_message}", "visible": "${data.has_error}"},
+          {"type": "TextBody", "text": "We’ve emailed a code to ${data.email}. You only need to do this once on WhatsApp."},
+          {"type": "TextInput", "name": "code", "label": "Code", "input-type": "number", "required": true},
+          {
+            "type": "Footer",
+            "label": "Continue",
+            "on-click-action": {
+              "name": "data_exchange",
+              "payload": {"code": "${form.code}"}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
